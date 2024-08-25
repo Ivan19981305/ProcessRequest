@@ -3,17 +3,38 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
+#include <iostream> 
+#include <chrono> 
+#include <random> 
 
 class Request {
-  // ... реализовать
+public:
+  int id; // Идентификатор запроса
+  Request(int id) : id(id) {} 
 };
 
 Request* GetRequest() throw() {
-  // ... реализовать
+  static int idCounter = 0; // Счетчик для генерации ID запросов
+
+  // Имитация получения запроса из какого-либо источника
+  // (например, чтение из файла, получение по сети)
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> distrib(1, 10); // Генерируем случайное число от 1 до 10
+
+  // С вероятностью 1/10 возвращаем nullptr (для завершения)
+  if (distrib(gen) == 1) {
+    return nullptr;
+  } 
+
+  // Иначе создаем новый запрос и возвращаем указатель на него
+  return new Request(idCounter++); 
 }
 
 void ProcessRequest(Request* request) throw() {
-  // ... реализовать
+  // Имитация обработки запроса (например, сложные вычисления)
+  std::cout << "Обрабатывается запрос с ID: " << request->id << std::endl;
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Имитация длительной операции
 }
 
 const int NumberOfThreads = 2;

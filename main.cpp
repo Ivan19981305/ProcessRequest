@@ -6,12 +6,7 @@
 #include <iostream> 
 #include <chrono> 
 #include <random> 
-
-class Request {
-public:
-  int id; // Идентификатор запроса
-  Request(int id) : id(id) {} 
-};
+#include "Request.h"
 
 Request* GetRequest() throw() {
   static int idCounter = 0; // Счетчик для генерации ID запросов
